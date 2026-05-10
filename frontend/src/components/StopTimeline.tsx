@@ -1,5 +1,5 @@
 import { Box, Chip, Typography, Paper } from '@mui/material';
-import { TripStop } from '../types';
+import type { TripStop } from '../types';
 
 const STOP_COLORS: Record<string, string> = {
   start: '#4CAF50', pickup: '#FF9800', dropoff: '#f44336', fuel_stop: '#FFC107',

@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react';
 import { Box, Typography, Paper, Button } from '@mui/material';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { DailyLog } from '../types';
+import type { DailyLog } from '../types';
 import LogSheet from './LogSheet';
 
 interface Props { logs: DailyLog[]; }

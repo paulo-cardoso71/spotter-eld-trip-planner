@@ -1,4 +1,4 @@
-import { DailyLog, LogEntry } from '../types';
+import type { DailyLog, LogEntry } from '../types';
 
 const SVG_WIDTH = 900;
 const SVG_HEIGHT = 620;

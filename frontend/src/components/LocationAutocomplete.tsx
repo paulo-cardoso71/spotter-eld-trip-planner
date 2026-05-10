@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { Autocomplete, TextField, CircularProgress } from '@mui/material';
-import { LocationInput } from '../types';
+import { Autocomplete, TextField } from '@mui/material';
+import type { LocationInput } from '../types';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -61,15 +61,6 @@ export default function LocationAutocomplete({ label, value, onChange }: Props) 
           label={label}
           required
           size="small"
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading && <CircularProgress color="inherit" size={18} />}
-                {params.InputProps.endAdornment}
-              </>
-            ),
-          }}
         />
       )}
       fullWidth

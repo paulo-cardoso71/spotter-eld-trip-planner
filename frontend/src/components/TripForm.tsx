@@ -1,7 +1,7 @@
 import { Box, TextField, Typography, Alert, Card, CardContent } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import LocationAutocomplete from './LocationAutocomplete';
-import { LocationInput } from '../types';
+import type { LocationInput } from '../types';
 
 interface Props {
   currentLocation: LocationInput | null;

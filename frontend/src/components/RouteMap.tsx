@@ -1,7 +1,7 @@
 import { useMemo, useCallback, useState } from 'react';
-import Map, { Source, Layer, Marker, Popup, NavigationControl } from 'react-map-gl';
+import Map, { Source, Layer, Marker, Popup, NavigationControl } from 'react-map-gl/mapbox';
 import { Box, Typography, Chip } from '@mui/material';
-import { TripStop } from '../types';
+import type { TripStop } from '../types';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;

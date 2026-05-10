@@ -4,7 +4,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PlaceIcon from '@mui/icons-material/Place';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
-import { TripPlanResponse } from '../types';
+import type { TripPlanResponse } from '../types';
 
 interface Props { data: TripPlanResponse; }
 

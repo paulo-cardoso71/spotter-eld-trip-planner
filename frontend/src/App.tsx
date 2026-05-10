@@ -22,8 +22,8 @@ function App() {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>ELD Trip Planner</Typography>
         </Toolbar>
       </AppBar>
-      <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: { xs: 'column', md: 'row' } }}>
-        <Box sx={{ width: { xs: '100%', md: 380 }, flexShrink: 0, p: 2 }}>
+      <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: { xs: 'column', md: 'row' }, minHeight: { md: 'calc(100vh - 64px)' } }}>
+        <Box sx={{ width: { xs: '100%', md: 380 }, flexShrink: 0, p: 2, overflowY: 'auto' }}>
           <TripForm
             currentLocation={form.currentLocation} pickupLocation={form.pickupLocation}
             dropoffLocation={form.dropoffLocation} cycleUsed={form.cycleUsed}
@@ -34,7 +34,7 @@ function App() {
           />
           {result && <TripSummary data={result} />}
         </Box>
-        <Box sx={{ flexGrow: 1, minHeight: 400 }}>
+        <Box sx={{ flexGrow: 1, minHeight: { xs: 400, md: '100%' }, position: 'relative' }}>
           <RouteMap geometry={result?.route?.geometry || null} stops={result?.stops || []} />
         </Box>
       </Box>

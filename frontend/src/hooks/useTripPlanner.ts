@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { LocationInput, TripPlanResponse } from '../types';
+import type { LocationInput, TripPlanResponse } from '../types';
 import { planTrip } from '../services/api';
 
 interface FormState {
