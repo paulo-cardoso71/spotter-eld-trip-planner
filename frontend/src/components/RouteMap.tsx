@@ -60,33 +60,50 @@ export default function RouteMap({ geometry, stops }: Props) {
       <NavigationControl position="top-right" />
       {routeGeoJSON && (
         <Source id="route" type="geojson" data={routeGeoJSON}>
-          <Layer id="route-line" type="line" paint={{ 'line-color': '#1a237e', 'line-width': 4, 'line-opacity': 0.8 }} />
+          <Layer id="route-line" type="line" paint={{ 'line-color': '#1a237e', 'line-width': 5, 'line-opacity': 0.85 }} />
         </Source>
       )}
       {stops.map((stop, i) => (
         <Marker key={`${stop.type}-${i}`} longitude={stop.location.lng} latitude={stop.location.lat} anchor="center"
           onClick={(e) => { e.originalEvent.stopPropagation(); handleMarkerClick(stop); }}>
-          <Box sx={{ width: 24, height: 24, borderRadius: '50%', bgcolor: STOP_COLORS[stop.type] || '#999',
-            border: '3px solid white', boxShadow: 2, cursor: 'pointer' }} />
+          <Box sx={{
+            width: 28, height: 28, borderRadius: '50%', bgcolor: STOP_COLORS[stop.type] || '#999',
+            border: '3px solid white', boxShadow: '0 2px 8px rgba(0,0,0,0.3)', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'transform 0.15s',
+            '&:hover': { transform: 'scale(1.2)' },
+            '&::after': {
+              content: '""', position: 'absolute', top: -4, left: -4, right: -4, bottom: -4,
+              borderRadius: '50%', border: `2px solid ${STOP_COLORS[stop.type] || '#999'}`, opacity: 0.3,
+            },
+          }}>
+            <Typography sx={{ color: 'white', fontSize: '0.6rem', fontWeight: 800, lineHeight: 1 }}>
+              {i + 1}
+            </Typography>
+          </Box>
         </Marker>
       ))}
       {selectedStop && (
         <Popup longitude={selectedStop.location.lng} latitude={selectedStop.location.lat}
           onClose={() => setSelectedStop(null)} closeOnClick={false} anchor="bottom">
-          <Box sx={{ p: 0.5, minWidth: 180 }}>
+          <Box sx={{ p: 1, minWidth: 200 }}>
             <Chip label={STOP_LABELS[selectedStop.type] || selectedStop.type} size="small"
-              sx={{ bgcolor: STOP_COLORS[selectedStop.type], color: 'white', mb: 0.5 }} />
-            <Typography variant="body2" fontWeight={600}>
+              sx={{ bgcolor: STOP_COLORS[selectedStop.type], color: 'white', mb: 1, fontWeight: 600 }} />
+            <Typography variant="body2" fontWeight={700} sx={{ mb: 0.5, color: '#1a237e' }}>
               {selectedStop.location.address || 'Unknown location'}
             </Typography>
-            <Typography variant="caption" display="block">
+            <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
               Arrive: {new Date(selectedStop.arrival_time).toLocaleString()}
             </Typography>
             {selectedStop.duration_hours > 0 && (
-              <Typography variant="caption" display="block">Duration: {selectedStop.duration_hours}h</Typography>
+              <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
+                Duration: {selectedStop.duration_hours}h
+              </Typography>
             )}
             {selectedStop.notes && (
-              <Typography variant="caption" color="text.secondary" display="block">{selectedStop.notes}</Typography>
+              <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5, fontStyle: 'italic' }}>
+                {selectedStop.notes}
+              </Typography>
             )}
           </Box>
         </Popup>

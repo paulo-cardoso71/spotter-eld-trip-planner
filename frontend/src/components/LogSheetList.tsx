@@ -26,14 +26,30 @@ export default function LogSheetList({ logs }: Props) {
 
   return (
     <Box sx={{ mt: 3 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-        <Typography variant="h5">Daily Log Sheets</Typography>
-        <Button variant="outlined" startIcon={<PictureAsPdfIcon />} onClick={handleExportPdf}>Export PDF</Button>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2.5 }}>
+        <Typography variant="h5" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box sx={{ width: 4, height: 24, bgcolor: '#ff6d00', borderRadius: 1 }} />
+          Daily Log Sheets
+        </Typography>
+        <Button
+          variant="contained" startIcon={<PictureAsPdfIcon />} onClick={handleExportPdf}
+          sx={{
+            bgcolor: '#1a237e', borderRadius: 2, fontWeight: 600,
+            '&:hover': { bgcolor: '#000051' },
+          }}
+        >
+          Export PDF
+        </Button>
       </Box>
       <div ref={containerRef}>
         {logs.map((log) => (
-          <Paper key={log.date} sx={{ mb: 3, p: 2, overflow: 'auto' }}>
-            <Typography variant="subtitle2" gutterBottom color="text.secondary">Day {log.day_number} — {log.date}</Typography>
+          <Paper key={log.date} sx={{
+            mb: 3, p: 2.5, overflow: 'auto', borderRadius: 3,
+            boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
+          }}>
+            <Typography variant="subtitle2" gutterBottom sx={{ color: '#1a237e', fontWeight: 700 }}>
+              Day {log.day_number} — {log.date}
+            </Typography>
             <LogSheet log={log} />
           </Paper>
         ))}
