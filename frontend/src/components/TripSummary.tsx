@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography, Grid } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import RouteIcon from '@mui/icons-material/Route';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PlaceIcon from '@mui/icons-material/Place';
@@ -18,41 +18,49 @@ export default function TripSummary({ data }: Props) {
   ];
 
   return (
-    <Box sx={{ mt: 3 }}>
-      <Typography variant="h6" gutterBottom sx={{ fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Box sx={{ width: 4, height: 20, bgcolor: '#ff6d00', borderRadius: 1 }} />
+    <Box sx={{ py: 3 }}>
+      <Typography variant="h6" gutterBottom sx={{
+        fontSize: '1.2rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1, mb: 2.5,
+      }}>
+        <Box sx={{ width: 4, height: 24, bgcolor: '#ff6d00', borderRadius: 1 }} />
         Trip Summary
       </Typography>
-      <Grid container spacing={1.5}>
+      <Box sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 2.5,
+      }}>
         {cards.map((card) => (
-          <Grid item xs={6} key={card.label}>
-            <Card sx={{
-              textAlign: 'center',
-              borderRadius: 2.5,
-              border: '1px solid #e8e8e8',
-              boxShadow: '0 1px 8px rgba(0,0,0,0.04)',
-              transition: 'box-shadow 0.2s, transform 0.2s',
-              '&:hover': { boxShadow: '0 4px 16px rgba(0,0,0,0.1)', transform: 'translateY(-1px)' },
-            }}>
-              <CardContent sx={{ py: 2, px: 1.5, '&:last-child': { pb: 2 } }}>
-                <Box sx={{
-                  color: 'white', bgcolor: '#ff6d00', borderRadius: '50%',
-                  width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  mx: 'auto', mb: 1, '& .MuiSvgIcon-root': { fontSize: 20 },
-                }}>
-                  {card.icon}
-                </Box>
-                <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.7rem', letterSpacing: '0.3px' }}>
-                  {card.label}
-                </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1a237e' }}>
-                  {card.value}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+          <Card key={card.label} sx={{
+            flex: '1 1 180px',
+            minWidth: 160,
+            textAlign: 'center',
+            borderRadius: 3,
+            border: '1px solid #e8e8e8',
+            boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
+            transition: 'box-shadow 0.2s, transform 0.2s',
+            '&:hover': { boxShadow: '0 6px 24px rgba(0,0,0,0.12)', transform: 'translateY(-3px)' },
+          }}>
+            <CardContent sx={{ py: 3, px: 2.5, '&:last-child': { pb: 3 } }}>
+              <Box sx={{
+                color: 'white', bgcolor: '#ff6d00', borderRadius: '50%',
+                width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                mx: 'auto', mb: 1.5, '& .MuiSvgIcon-root': { fontSize: 26 },
+              }}>
+                {card.icon}
+              </Box>
+              <Typography variant="caption" color="text.secondary" sx={{
+                fontSize: '0.8rem', letterSpacing: '0.5px', textTransform: 'uppercase', fontWeight: 500,
+              }}>
+                {card.label}
+              </Typography>
+              <Typography variant="h5" sx={{ fontWeight: 700, fontSize: '1.4rem', color: '#1a237e', mt: 0.5 }}>
+                {card.value}
+              </Typography>
+            </CardContent>
+          </Card>
         ))}
-      </Grid>
+      </Box>
     </Box>
   );
 }

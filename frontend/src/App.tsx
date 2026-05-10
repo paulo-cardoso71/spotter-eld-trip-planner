@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { Box, Typography, AppBar, Toolbar, Chip } from '@mui/material';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import MapIcon from '@mui/icons-material/Map';
@@ -14,6 +15,18 @@ function App() {
     setCurrentLocation, setPickupLocation, setDropoffLocation, setCycleUsed,
     submitTrip, setError,
   } = useTripPlanner();
+
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const prevResult = useRef(result);
+
+  useEffect(() => {
+    if (result && result !== prevResult.current) {
+      prevResult.current = result;
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }, [result]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: '#f5f5f5' }}>
@@ -50,12 +63,14 @@ function App() {
           />
         </Toolbar>
       </AppBar>
+      {/* Top section: Form sidebar + Map */}
       <Box sx={{
-        display: 'flex', flexGrow: 1,
+        display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
-        minHeight: { md: 'calc(100vh - 68px)' },
+        height: { md: 'calc(100vh - 68px)' },
+        minHeight: { xs: 'auto', md: 'calc(100vh - 68px)' },
       }}>
-        {/* Sidebar */}
+        {/* Sidebar — form only */}
         <Box sx={{
           width: { xs: '100%', md: 400 }, flexShrink: 0,
           p: 2.5, overflowY: 'auto',
@@ -70,7 +85,6 @@ function App() {
             onDropoffLocationChange={setDropoffLocation} onCycleUsedChange={setCycleUsed}
             onSubmit={submitTrip} onDismissError={() => setError(null)}
           />
-          {result && <TripSummary data={result} />}
         </Box>
         {/* Map area */}
         <Box sx={{ flexGrow: 1, minHeight: { xs: 400, md: '100%' }, position: 'relative' }}>
@@ -105,14 +119,29 @@ function App() {
           <RouteMap geometry={result?.route?.geometry || null} stops={result?.stops || []} />
         </Box>
       </Box>
+
+      {/* Full-width results sections below the map */}
       {result && (
-        <Box sx={{ px: { xs: 2, md: 4 }, maxWidth: 1400, mx: 'auto', width: '100%' }}>
-          <StopTimeline stops={result.stops} />
-        </Box>
-      )}
-      {result && (
-        <Box sx={{ px: { xs: 2, md: 4 }, pb: 6, maxWidth: 1400, mx: 'auto', width: '100%' }}>
-          <LogSheetList logs={result.daily_logs} />
+        <Box ref={resultsRef}>
+          {/* Trip Summary — full width */}
+          <Box sx={{
+            bgcolor: 'rgba(26,35,126,0.03)',
+            borderTop: '1px solid #e0e0e0',
+          }}>
+            <Box sx={{ px: { xs: 2, md: 4 }, py: 1, maxWidth: 1400, mx: 'auto', width: '100%' }}>
+              <TripSummary data={result} />
+            </Box>
+          </Box>
+
+          {/* Stop Timeline — full width */}
+          <Box sx={{ px: { xs: 2, md: 4 }, maxWidth: 1400, mx: 'auto', width: '100%' }}>
+            <StopTimeline stops={result.stops} />
+          </Box>
+
+          {/* Daily Log Sheets — full width */}
+          <Box sx={{ px: { xs: 2, md: 4 }, pb: 6, maxWidth: 1400, mx: 'auto', width: '100%' }}>
+            <LogSheetList logs={result.daily_logs} />
+          </Box>
         </Box>
       )}
     </Box>

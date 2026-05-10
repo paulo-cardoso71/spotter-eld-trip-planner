@@ -16,51 +16,57 @@ interface Props { stops: TripStop[]; }
 export default function StopTimeline({ stops }: Props) {
   return (
     <Paper sx={{
-      p: 3, mt: 3, borderRadius: 3,
+      p: { xs: 2.5, md: 3.5 }, mt: 3, borderRadius: 3,
       boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
     }}>
-      <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2.5 }}>
-        <Box sx={{ width: 4, height: 20, bgcolor: '#ff6d00', borderRadius: 1 }} />
+      <Typography variant="h6" gutterBottom sx={{
+        display: 'flex', alignItems: 'center', gap: 1, mb: 2.5,
+        fontSize: '1.2rem', fontWeight: 700,
+      }}>
+        <Box sx={{ width: 4, height: 24, bgcolor: '#ff6d00', borderRadius: 1 }} />
         Stop Timeline
       </Typography>
       <Box sx={{
-        display: 'flex', alignItems: 'stretch', overflowX: 'auto', gap: 0, pb: 1,
-        '&::-webkit-scrollbar': { height: 6 },
-        '&::-webkit-scrollbar-thumb': { bgcolor: '#ccc', borderRadius: 3 },
+        display: 'flex', alignItems: 'stretch', overflowX: 'auto', gap: 0, pb: 1.5, pt: 0.5,
+        '&::-webkit-scrollbar': { height: 8 },
+        '&::-webkit-scrollbar-track': { bgcolor: '#f0f0f0', borderRadius: 4 },
+        '&::-webkit-scrollbar-thumb': { bgcolor: '#bdbdbd', borderRadius: 4, '&:hover': { bgcolor: '#999' } },
       }}>
         {stops.map((stop, i) => (
           <Box key={i} sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <Box sx={{
-              textAlign: 'center', minWidth: 120, px: 1.5, py: 1.5,
-              bgcolor: 'white', borderRadius: 2.5,
+              textAlign: 'center', minWidth: 150, px: 2, py: 2,
+              bgcolor: 'white', borderRadius: 3,
               border: '2px solid',
               borderColor: STOP_COLORS[stop.type] || '#999',
               transition: 'transform 0.15s, box-shadow 0.15s',
-              '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' },
+              '&:hover': { transform: 'translateY(-3px)', boxShadow: '0 6px 16px rgba(0,0,0,0.12)' },
             }}>
               <Box sx={{
-                width: 10, height: 10, borderRadius: '50%',
+                width: 12, height: 12, borderRadius: '50%',
                 bgcolor: STOP_COLORS[stop.type] || '#999',
-                mx: 'auto', mb: 0.8,
+                mx: 'auto', mb: 1,
               }} />
-              <Typography variant="caption" display="block" sx={{
-                fontWeight: 700, fontSize: '0.75rem',
+              <Typography variant="body2" display="block" sx={{
+                fontWeight: 700, fontSize: '0.85rem',
                 color: STOP_COLORS[stop.type] || '#999',
-                textTransform: 'uppercase', letterSpacing: '0.3px',
+                textTransform: 'uppercase', letterSpacing: '0.5px',
+                mb: 0.8,
               }}>
                 {STOP_LABELS[stop.type] || stop.type}
               </Typography>
               <Typography variant="caption" display="block" sx={{
-                fontSize: '0.7rem', color: 'text.secondary', mt: 0.3,
-                maxWidth: 110, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                fontSize: '0.78rem', color: 'text.secondary', lineHeight: 1.4,
+                maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                mx: 'auto',
               }}>
                 {stop.location.address ? stop.location.address.split(',')[0] : ''}
               </Typography>
             </Box>
             {i < stops.length - 1 && (
-              <Box sx={{ display: 'flex', alignItems: 'center', mx: 0.5 }}>
-                <Box sx={{ width: 20, height: 2, bgcolor: '#bdbdbd' }} />
-                <ArrowForwardIcon sx={{ fontSize: 14, color: '#bdbdbd' }} />
+              <Box sx={{ display: 'flex', alignItems: 'center', mx: 1 }}>
+                <Box sx={{ width: 24, height: 2, bgcolor: '#bdbdbd' }} />
+                <ArrowForwardIcon sx={{ fontSize: 16, color: '#bdbdbd' }} />
               </Box>
             )}
           </Box>

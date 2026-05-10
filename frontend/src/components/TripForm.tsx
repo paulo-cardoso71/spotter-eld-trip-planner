@@ -1,9 +1,12 @@
-import { Box, TextField, Typography, Alert, Card, CardContent, Divider } from '@mui/material';
+import { useState } from 'react';
+import { Box, TextField, Typography, Alert, Card, CardContent, Divider, IconButton, Tooltip, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import LocationAutocomplete from './LocationAutocomplete';
 import type { LocationInput } from '../types';
+
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 interface Props {
   currentLocation: LocationInput | null;
@@ -25,6 +28,32 @@ export default function TripForm({
   onCurrentLocationChange, onPickupLocationChange, onDropoffLocationChange,
   onCycleUsedChange, onSubmit, onDismissError,
 }: Props) {
+  const [geoLoading, setGeoLoading] = useState(false);
+
+  const handleUseMyLocation = () => {
+    if (!navigator.geolocation) return;
+    setGeoLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const resp = await fetch(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${MAPBOX_TOKEN}&limit=1`
+          );
+          const data = await resp.json();
+          const placeName = data.features?.[0]?.place_name || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+          onCurrentLocationChange({ address: placeName, lat: latitude, lng: longitude });
+        } catch {
+          onCurrentLocationChange({ address: `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`, lat: latitude, lng: longitude });
+        } finally {
+          setGeoLoading(false);
+        }
+      },
+      () => { setGeoLoading(false); },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  };
+
   return (
     <Card sx={{
       borderRadius: 3,
@@ -58,7 +87,27 @@ export default function TripForm({
           </Typography>
         </Box>
 
-        <LocationAutocomplete label="Current Location" value={currentLocation} onChange={onCurrentLocationChange} />
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.5 }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <LocationAutocomplete label="Current Location" value={currentLocation} onChange={onCurrentLocationChange} />
+          </Box>
+          <Tooltip title="Use my location">
+            <IconButton
+              onClick={handleUseMyLocation}
+              disabled={geoLoading}
+              size="small"
+              sx={{
+                mt: 0.5,
+                bgcolor: '#1a237e', color: 'white',
+                width: 36, height: 36,
+                '&:hover': { bgcolor: '#283593' },
+                '&.Mui-disabled': { bgcolor: '#ccc', color: 'white' },
+              }}
+            >
+              {geoLoading ? <CircularProgress size={18} sx={{ color: 'white' }} /> : <MyLocationIcon sx={{ fontSize: 18 }} />}
+            </IconButton>
+          </Tooltip>
+        </Box>
         <LocationAutocomplete label="Pickup Location" value={pickupLocation} onChange={onPickupLocationChange} />
         <LocationAutocomplete label="Dropoff Location" value={dropoffLocation} onChange={onDropoffLocationChange} />
 

@@ -92,16 +92,19 @@ export default function RouteMap({ geometry, stops }: Props) {
             <Typography variant="body2" fontWeight={700} sx={{ mb: 0.5, color: '#1a237e' }}>
               {selectedStop.location.address || 'Unknown location'}
             </Typography>
-            <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
+            <Typography variant="caption" display="block" sx={{ color: 'text.secondary', mb: 0.5 }}>
               Arrive: {new Date(selectedStop.arrival_time).toLocaleString()}
             </Typography>
             {selectedStop.duration_hours > 0 && (
-              <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
-                Duration: {selectedStop.duration_hours}h
+              <Typography variant="caption" display="block" sx={{ color: 'text.secondary', mb: 0.5 }}>
+                Duration: {selectedStop.duration_hours.toFixed(1)} hours
               </Typography>
             )}
             {selectedStop.notes && (
-              <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5, fontStyle: 'italic' }}>
+              <Typography variant="caption" color="text.secondary" display="block" sx={{
+                mt: 0.5, pt: 0.5, fontStyle: 'italic',
+                borderTop: '1px solid #eee',
+              }}>
                 {selectedStop.notes}
               </Typography>
             )}
