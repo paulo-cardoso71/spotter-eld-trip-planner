@@ -5,6 +5,7 @@ import TripForm from './components/TripForm';
 import RouteMap from './components/RouteMap';
 import TripSummary from './components/TripSummary';
 import StopTimeline from './components/StopTimeline';
+import LogSheetList from './components/LogSheetList';
 
 function App() {
   const {
@@ -40,6 +41,11 @@ function App() {
       {result && (
         <Box sx={{ px: 2 }}>
           <StopTimeline stops={result.stops} />
+        </Box>
+      )}
+      {result && (
+        <Box sx={{ px: 2, pb: 4 }}>
+          <LogSheetList logs={result.daily_logs} />
         </Box>
       )}
     </Box>
