@@ -86,24 +86,24 @@ export default function RouteMap({ geometry, stops }: Props) {
       {selectedStop && (
         <Popup longitude={selectedStop.location.lng} latitude={selectedStop.location.lat}
           onClose={() => setSelectedStop(null)} closeOnClick={false} anchor="bottom">
-          <Box sx={{ p: 1, minWidth: 200 }}>
+          <Box sx={{ p: 1.5, minWidth: 220, textAlign: 'center', '& > *': { display: 'block !important' } }}>
             <Chip label={STOP_LABELS[selectedStop.type] || selectedStop.type} size="small"
-              sx={{ bgcolor: STOP_COLORS[selectedStop.type], color: 'white', mb: 1, fontWeight: 600 }} />
-            <Typography variant="body2" fontWeight={700} sx={{ mb: 0.5, color: '#1a237e' }}>
+              sx={{ bgcolor: STOP_COLORS[selectedStop.type], color: 'white', mb: 1.5, fontWeight: 600, borderRadius: 1, mx: 'auto' }} />
+            <Typography variant="body2" sx={{ fontWeight: 700, color: '#1a237e', mb: 1 }}>
               {selectedStop.location.address || 'Unknown location'}
             </Typography>
-            <Typography variant="caption" display="block" sx={{ color: 'text.secondary', mb: 0.5 }}>
+            <Typography variant="caption" component="div" sx={{ color: 'text.secondary', mb: 0.5, lineHeight: 1.6 }}>
               Arrive: {new Date(selectedStop.arrival_time).toLocaleString()}
             </Typography>
             {selectedStop.duration_hours > 0 && (
-              <Typography variant="caption" display="block" sx={{ color: 'text.secondary', mb: 0.5 }}>
+              <Typography variant="caption" component="div" sx={{ color: 'text.secondary', mb: 0.5, lineHeight: 1.6 }}>
                 Duration: {selectedStop.duration_hours.toFixed(1)} hours
               </Typography>
             )}
             {selectedStop.notes && (
-              <Typography variant="caption" color="text.secondary" display="block" sx={{
-                mt: 0.5, pt: 0.5, fontStyle: 'italic',
-                borderTop: '1px solid #eee',
+              <Typography variant="caption" component="div" sx={{
+                color: 'text.secondary', mt: 1, pt: 1, fontStyle: 'italic',
+                borderTop: '1px solid #eee', lineHeight: 1.6,
               }}>
                 {selectedStop.notes}
               </Typography>

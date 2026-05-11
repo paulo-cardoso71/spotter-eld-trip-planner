@@ -1,13 +1,13 @@
 import type { DailyLog, LogEntry } from '../types';
 
-const SVG_WIDTH = 900;
+const SVG_WIDTH = 960;
 const SVG_HEIGHT = 620;
-const GRID_LEFT = 100;
-const GRID_RIGHT = 820;
+const GRID_LEFT = 140;
+const GRID_RIGHT = 870;
 const GRID_WIDTH = GRID_RIGHT - GRID_LEFT;
 const PX_PER_HOUR = GRID_WIDTH / 24;
 const INFO_Y = 55;
-const GRID_TOP = 115;
+const GRID_TOP = 120;
 const ROW_HEIGHT = 40;
 const TOTAL_COL_X = GRID_RIGHT + 10;
 const REMARKS_Y = GRID_TOP + ROW_HEIGHT * 4 + 30;
@@ -17,7 +17,7 @@ const STATUS_ROWS: { key: string; label: string; color: string }[] = [
   { key: 'off_duty', label: '1. Off Duty', color: '#4CAF50' },
   { key: 'sleeper_berth', label: '2. Sleeper Berth', color: '#9C27B0' },
   { key: 'driving', label: '3. Driving', color: '#2196F3' },
-  { key: 'on_duty_not_driving', label: '4. On Duty (not driving)', color: '#FF9800' },
+  { key: 'on_duty_not_driving', label: '4. On Duty', color: '#FF9800' },
 ];
 
 const STATUS_ROW_INDEX: Record<string, number> = {
@@ -62,20 +62,27 @@ export default function LogSheet({ log }: Props) {
       <text x={250} y={INFO_Y + 40} fontSize={9} fill="#999">Truck/Tractor #: ________</text>
       <text x={500} y={INFO_Y + 40} fontSize={9} fill="#999">Home Terminal: ________________</text>
 
-      <text x={GRID_LEFT - 5} y={GRID_TOP - 5} fontSize={8} textAnchor="middle">Mid-</text>
-      <text x={GRID_LEFT - 5} y={GRID_TOP + 3} fontSize={8} textAnchor="middle">night</text>
+      <text x={GRID_LEFT} y={GRID_TOP - 6} fontSize={7} textAnchor="middle">Midnight</text>
       {Array.from({ length: 23 }, (_, i) => i + 1).map((h) => (
-        <text key={h} x={hourToX(h)} y={GRID_TOP - 3} fontSize={8} textAnchor="middle">
+        <text key={h} x={hourToX(h)} y={GRID_TOP - 6} fontSize={8} textAnchor="middle">
           {h === 12 ? 'Noon' : h > 12 ? h - 12 : h}
         </text>
       ))}
-      <text x={GRID_RIGHT + 5} y={GRID_TOP - 5} fontSize={8} textAnchor="middle">Mid-</text>
-      <text x={GRID_RIGHT + 5} y={GRID_TOP + 3} fontSize={8} textAnchor="middle">night</text>
-      <text x={TOTAL_COL_X + 15} y={GRID_TOP - 3} fontSize={9} textAnchor="middle" fontWeight="bold">Total</text>
-      <text x={TOTAL_COL_X + 15} y={GRID_TOP + 6} fontSize={9} textAnchor="middle" fontWeight="bold">Hours</text>
+      <text x={GRID_RIGHT} y={GRID_TOP - 6} fontSize={7} textAnchor="middle">Midnight</text>
+      <text x={TOTAL_COL_X + 20} y={GRID_TOP - 6} fontSize={8} textAnchor="middle" fontWeight="bold">Total</text>
+      <text x={TOTAL_COL_X + 20} y={GRID_TOP + 4} fontSize={8} textAnchor="middle" fontWeight="bold">Hours</text>
 
       {STATUS_ROWS.map((row, idx) => (
-        <text key={row.key} x={15} y={rowToY(idx) + ROW_HEIGHT / 2 + 4} fontSize={9}>{row.label}</text>
+        <g key={row.key}>
+          <text x={15} y={rowToY(idx) + ROW_HEIGHT / 2 + (idx === 3 ? -2 : 4)} fontSize={10} fontWeight="600">
+            {row.label}
+          </text>
+          {idx === 3 && (
+            <text x={15} y={rowToY(idx) + ROW_HEIGHT / 2 + 10} fontSize={8} fill="#666">
+              (not driving)
+            </text>
+          )}
+        </g>
       ))}
 
       {STATUS_ROWS.map((_, idx) => (
@@ -117,13 +124,13 @@ export default function LogSheet({ log }: Props) {
       ))}
 
       {STATUS_ROWS.map((row, idx) => (
-        <text key={`total-${row.key}`} x={TOTAL_COL_X + 15} y={rowToY(idx) + ROW_HEIGHT / 2 + 4}
+        <text key={`total-${row.key}`} x={TOTAL_COL_X + 20} y={rowToY(idx) + ROW_HEIGHT / 2 + 4}
           fontSize={11} textAnchor="middle" fontWeight="bold">
           {(log.totals[row.key as keyof typeof log.totals] || 0).toFixed(1)}
         </text>
       ))}
 
-      <text x={TOTAL_COL_X + 15} y={GRID_TOP + ROW_HEIGHT * 4 + 15} fontSize={11} textAnchor="middle" fontWeight="bold">
+      <text x={TOTAL_COL_X + 20} y={GRID_TOP + ROW_HEIGHT * 4 + 15} fontSize={11} textAnchor="middle" fontWeight="bold">
         Total: {Object.values(log.totals).reduce((a, b) => a + b, 0).toFixed(1)}
       </text>
 
