@@ -52,14 +52,10 @@ class TripPlanCreateView(APIView):
             route_geometry=route['geometry'],
         )
 
+        # Reverse geocode only stops (not driving segments) to stay within timeout
         for stop in trip.stops:
             if not stop.location.address:
                 stop.location.address = reverse_geocode(stop.location.lat, stop.location.lng)
-        for seg in trip.driving_segments:
-            if not seg.start_location.address:
-                seg.start_location.address = reverse_geocode(seg.start_location.lat, seg.start_location.lng)
-            if not seg.end_location.address:
-                seg.end_location.address = reverse_geocode(seg.end_location.lat, seg.end_location.lng)
 
         start_time = trip.stops[0].arrival_time
         daily_logs = generate_daily_logs(trip.stops, trip.driving_segments, start_time, cycle_used)
