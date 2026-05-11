@@ -72,8 +72,8 @@ CORS_ALLOWED_ORIGINS = os.getenv(
     'CORS_ALLOWED_ORIGINS', 'http://localhost:5173'
 ).split(',')
 
-# Allow all localhost ports during development
-if DEBUG:
+# Allow all origins if CORS_ALLOWED_ORIGINS is set to '*'
+if '*' in CORS_ALLOWED_ORIGINS or DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
