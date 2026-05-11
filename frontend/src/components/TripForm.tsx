@@ -116,7 +116,7 @@ export default function TripForm({
         <TextField
           label="Current Cycle Used (hours)" type="number" value={cycleUsed}
           onChange={(e) => { const val = parseFloat(e.target.value) || 0; onCycleUsedChange(Math.min(70, Math.max(0, val))); }}
-          inputProps={{ min: 0, max: 70, step: 0.5 }}
+          slotProps={{ htmlInput: { min: 0, max: 70, step: 0.5 } }}
           size="small" fullWidth
           helperText="Hours used in current 70h/8-day cycle (0-70)"
           sx={{ mb: 3 }}

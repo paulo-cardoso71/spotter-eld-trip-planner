@@ -47,7 +47,7 @@ export default function StopTimeline({ stops }: Props) {
                 bgcolor: STOP_COLORS[stop.type] || '#999',
                 mx: 'auto', mb: 1,
               }} />
-              <Typography variant="body2" display="block" sx={{
+              <Typography variant="body2" component="div" sx={{
                 fontWeight: 700, fontSize: '0.85rem',
                 color: STOP_COLORS[stop.type] || '#999',
                 textTransform: 'uppercase', letterSpacing: '0.5px',
@@ -55,7 +55,7 @@ export default function StopTimeline({ stops }: Props) {
               }}>
                 {STOP_LABELS[stop.type] || stop.type}
               </Typography>
-              <Typography variant="caption" display="block" sx={{
+              <Typography variant="caption" component="div" sx={{
                 fontSize: '0.78rem', color: 'text.secondary', lineHeight: 1.4,
                 maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                 mx: 'auto',
