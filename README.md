@@ -16,7 +16,7 @@ Access the deployed application here: 👉 [https://spotter-eld-trip-planner-ome
 
 A 3–5 minute walkthrough covering the app demo, edge cases, and code architecture.
 
-🎥 [Watch the Loom walkthrough](#) *(link to be added)*
+🎥 [Watch the Loom walkthrough]([#](https://www.loom.com/share/c2aa7d4721fd44489765546c38eedd1c)) 
 
 ---
 
